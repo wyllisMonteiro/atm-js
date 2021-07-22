@@ -7,17 +7,19 @@ export function atm(value: number) {
     return "Not enough money";
   }
 
-  let moneyCutState = [0, 0, 0, 0, 0, 0];
+  let globalRemainder = value;
 
-  let counter = 0;
-  while (counter < moneyCut.length) {
-    if (value >= moneyCut[counter]) {
-      const remainder = value % moneyCut[counter];
-      const quotient = (value - remainder) / moneyCut[counter];
-      moneyCutState[counter] = quotient;
-    }
-    counter++;
+  interface Accumulator {
+    globalRemainder: number;
+    result: Array<number>;
   }
 
-  return moneyCutState;
+  return moneyCut.reduce((accumulateur: Accumulator, moneyCut) => {
+        if (accumulateur.globalRemainder >= moneyCut) {
+          const remainder = globalRemainder % moneyCut;
+          const result = (globalRemainder - remainder) / moneyCut
+          return { globalRemainder: remainder, result: [...accumulateur.result, result] }
+        }
+        return { globalRemainder: accumulateur.globalRemainder, result: [...accumulateur.result, 0] }
+  }, { globalRemainder: value, result: [] }).result;
 }
