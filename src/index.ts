@@ -12,7 +12,7 @@ export function atm(value: number) {
     result: Array<number>;
   }
 
-  return moneyCut.reduce((accumulateur: Accumulator, moneyCut) => {
+  return moneyCut.reduce((accumulateur: Accumulator, moneyCut: number) => {
         if (accumulateur.globalRemainder >= moneyCut) {
           const remainder = accumulateur.globalRemainder % moneyCut;
           const result = (accumulateur.globalRemainder - remainder) / moneyCut
